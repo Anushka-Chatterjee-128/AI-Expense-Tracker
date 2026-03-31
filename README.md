@@ -6,7 +6,7 @@ This repository contains the complete source code, architectural documentation, 
 
 ---
 
-## 📑 Comprehensive Table of Contents
+## Comprehensive Table of Contents
 1. [Executive Summary & Motivation](#executive-summary--motivation)
 2. [The Core Problem Statement](#the-core-problem-statement)
 3. [Key Features & Capabilities](#key-features--capabilities)
@@ -22,7 +22,7 @@ This repository contains the complete source code, architectural documentation, 
 
 ---
 
-## 🚀 Executive Summary & Motivation
+## Executive Summary & Motivation
 When we were assigned the BYOP project, I wanted to build an application that I could genuinely use in my daily life, rather than another generic calculator or tic-tac-toe game. Tracking expenses is notoriously difficult because human behavior often resists constant, friction-heavy data entry. 
 
 Most conventional finance applications (even the expensive ones) require you to manually click through endless dropdown menus just to specify that a $5 charge at Starbucks belongs in the "Food & Dining" category, or that a subway ticket is "Transport". I realized this text-classification problem is a perfect, textbook use case for **Artificial Intelligence**, specifically **Natural Language Processing (NLP)**. 
@@ -31,7 +31,7 @@ I decided to build a fast, lightweight Command Line Interface (CLI) application 
 
 ---
 
-## 🛑 The Core Problem Statement
+## The Core Problem Statement
 The exact problem this software solves can be defined by three critical pillars:
 
 1. **Friction in Data Entry:** Typing "Bought 2 coffees for 10 bucks" takes exactly 2 seconds. Conversely, opening a GUI application, waiting for it to load, clicking a '+' button, typing the amount, and scrolling through a static list of 50 categories takes 30+ seconds. This latency leads to users abandoning expense tracking altogether.
@@ -40,7 +40,7 @@ The exact problem this software solves can be defined by three critical pillars:
 
 ---
 
-## ✨ Key Features & Capabilities
+## Key Features & Capabilities
 
 - **Secure Session Authentication:** The application enforces a strict user ecosystem. Users must register an account and log in. Passwords are actively encrypted using SHA-256 hashing via Python's native `hashlib` cryptography library.
 - **Relational Data Storage:** Built entirely on SQLite, ensuring that multiple users can utilize the same terminal application on the same machine without cross-contaminating their financial ledgers.
@@ -51,7 +51,7 @@ The exact problem this software solves can be defined by three critical pillars:
 
 ---
 
-## 🏗️ System Architecture & Tech Stack Details
+## System Architecture & Tech Stack Details
 I intentionally kept the stack highly modular and rigorously lightweight. There is absolutely no need to run Docker containers or heavy Node.js runtimes just to track an expense.
 
 ### The Stack:
@@ -68,7 +68,7 @@ To ensure the code is maintainable and adheres to the Software Engineering princ
 
 ---
 
-## 🛠️ Complete Setup & Installation Guide
+## Complete Setup & Installation Guide
 
 If you are grading this BYOP project or simply want to clone it to use for your own personal finance tracking, follow these terminal instructions exactly.
 
@@ -119,7 +119,7 @@ python main.py
 
 ---
 
-## 📸 Step-by-Step Walkthrough
+## Step-by-Step Walkthrough
 
 Once you initialize the controller script, here is what the user journey looks like.
 
@@ -149,7 +149,7 @@ Once the data entry is concluded, a user can securely press `3` to terminate the
 
 ---
 
-## 🧠 Deep Dive: How the AI Engine Works Under the Hood
+## Deep Dive: How the AI Engine Works Under the Hood
 
 The crux of the "AI" within this application lives exclusively inside `ai_helper.py`. Let's explore the dual-node setup.
 
@@ -175,7 +175,7 @@ The algorithm forces the user input into a `.lower()` case format, iterates thro
 
 ---
 
-## 🗄️ Database Schema & ERD Mapping
+## Database Schema & ERD Mapping
 
 In the interest of full academic transparency, here is the exact relational schema currently executing strictly inside `expense_tracker.db`. We employ a 1-to-Many foreign key relationship mapping `users -> expenses`.
 
@@ -198,7 +198,7 @@ In the interest of full academic transparency, here is the exact relational sche
 
 ---
 
-## 🔐 Security Considerations & Best Practices
+## Security Considerations & Best Practices
 Even though this is a CLI academic project, several real-world security paradigms were adhered to:
 1. **Password Protection:** As previously analyzed, `.encode()` and `hashlib.sha256()` implementations protect end-user passwords against local database breaches.
 2. **SQL Injection Armor:** By utilizing `?` placeholder parameters inside the `cursor.execute()` statements (e.g., `execute("SELECT id FROM users WHERE username = ?", (username,))`), malicious users cannot simply drop SQL payloads like `' OR '1'='1` into the username field to dump the database.
@@ -206,14 +206,14 @@ Even though this is a CLI academic project, several real-world security paradigm
 
 ---
 
-## 🛸 Error Handling & Edge Cases
+## Error Handling & Edge Cases
 Great CLI's shouldn't crash when humans make mistakes. 
 - **Handling Invalid Floats**: If a user is asked for a price amount and typed `--`, `abc`, or an empty character, the terminal uses `try/except ValueError` loops to reject the input, display a human-readable warning ("Please enter a valid positive number"), and safely `continue` the `while` loop, as opposed to throwing a `Traceback` stack and violently crashing the app.
 - **Handling Control Sequences**: Pressing `CTRL+C` in a terminal throws a `KeyboardInterrupt`. The app catches this universally wrapping the `main()` function, allowing it to print `Exiting...` and gracefully terminate the process utilizing `sys.exit(0)`.
 
 ---
 
-## 🔭 Future Scope & Production Enhancements
+## Future Scope & Production Enhancements
 While this MVP (Minimum Viable Product) completely fulfills the requirements of the BYOP project, scaling the application out for production would involve implementing the following systems:
 1. **Interactive Ascii Graphics:** While the terminal outputs strict text grids right now, integrating libraries like `plotext` would allow me to natively render colorful bar graphs and pie charts directly in the bash terminal, dynamically grouping user spending by AI categories against variable temporal contexts (e.g., sorting trailing 30-day graphs).
 2. **Export capabilities (CSV/JSON/PDF):** Coding a `-export` argument flag that triggers the application to query all `user_id` rows and `.dump()` them via the `csv` python module so users can visually map their algorithmically calculated spending habits in Microsoft Excel.
@@ -221,6 +221,6 @@ While this MVP (Minimum Viable Product) completely fulfills the requirements of 
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 - Completely concepted, engineered, and executed for the *Fundamentals of AI and ML* course as the final, evaluated BYOP capstone project submission.
 - Engineered primarily leveraging Python 3.8 and the incredible efficiency of Google's Generative AI Flash methodologies.
