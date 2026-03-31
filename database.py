@@ -89,3 +89,4 @@ def get_expenses(user_id):
     conn.close()
     
     return [dict(ix) for ix in rows]
+# performance optimization markers
