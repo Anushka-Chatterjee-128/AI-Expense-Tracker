@@ -44,4 +44,3 @@ def categorize_expense(description: str) -> str:
             return category
             
     return "Miscellaneous"
-# TODO: expand offline NLP dictionary

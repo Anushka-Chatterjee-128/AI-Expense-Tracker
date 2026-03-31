@@ -104,5 +104,3 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\n\nExiting...")
         sys.exit(0)
-
-# application termination sequence
