@@ -1,8 +1,8 @@
 # AI Expense Tracker (BYOP Capstone Project)
 
-Welcome to the official repository for my **Bring Your Own Project (BYOP)** submission for the *Fundamentals of AI and ML* course. 
+Welcome to the repository for my "Bring Your Own Project" (BYOP) submission for our Fundamentals of AI and ML course. 
 
-This repository contains the complete source code, architectural documentation, and implementation logic for my terminal-based **AI Expense Tracker**. This project bridges the gap between traditional financial ledger applications and modern Generative Artificial Intelligence by creating a frictionless, Natural Language-driven interface for logging daily transactions.
+This repository holds all the source code, explanations, and programming logic I wrote for my terminal-based AI Expense Tracker. Basically, the whole point of this project is to try and fix the annoying parts of normal budgeting apps by adding some Generative Artificial Intelligence into the mix. I wanted to create a tool where you can just type what you bought in plain English instead of clicking a bunch of menus.
 
 ---
 
@@ -23,64 +23,64 @@ This repository contains the complete source code, architectural documentation, 
 ---
 
 ## Executive Summary & Motivation
-When we were assigned the BYOP project, I wanted to build an application that I could genuinely use in my daily life, rather than another generic calculator or tic-tac-toe game. Tracking expenses is notoriously difficult because human behavior often resists constant, friction-heavy data entry. 
+When the professor gave us the BYOP project instructions, I spent a lot of time thinking about what to make. I really wanted to build an application that I could actually use in my everyday life, rather than just submitting another standard calculator app or a generic game. I realized that tracking expenses is something we all know we should do, but we usually stop doing it because typing all the data in is super tedious. 
 
-Most conventional finance applications (even the expensive ones) require you to manually click through endless dropdown menus just to specify that a $5 charge at Starbucks belongs in the "Food & Dining" category, or that a subway ticket is "Transport". I realized this text-classification problem is a perfect, textbook use case for **Artificial Intelligence**, specifically **Natural Language Processing (NLP)**. 
+If you look at most finance apps on our phones right now, they force you to manually tap through a ton of dropdown menus simply to say that a $5 charge at a coffee shop belongs in the "Food & Dining" category, or that a cheap train ticket is "Transport". I thought about this and realized that classifying text is actually a perfect textbook use case for Artificial Intelligence—specifically Natural Language Processing (NLP). 
 
-I decided to build a fast, lightweight Command Line Interface (CLI) application in Python. In this tool, you simply type exactly what you bought in plain English, and the AI assumes the burden of categorizing it. It is built entirely for the terminal because CLI apps are remarkably fast, consume virtually zero system memory (RAM), and allow power-users to accomplish tasks without lifting their hands from the keyboard.
+So, I decided to code a very fast Command Line Interface (CLI) application using Python. With this tracker, you simply type out whatever you bought just like you are texting a friend, and the AI takes over and figures out the category for you. I chose to build it completely for the terminal because CLI programs load instantly, they use almost zero RAM on your laptop, and you don't even have to take your hands off the keyboard to get things done.
 
 ---
 
 ## The Core Problem Statement
-The exact problem this software solves can be defined by three critical pillars:
+The exact problem my software is trying to solve comes down to three main points:
 
-1. **Friction in Data Entry:** Typing "Bought 2 coffees for 10 bucks" takes exactly 2 seconds. Conversely, opening a GUI application, waiting for it to load, clicking a '+' button, typing the amount, and scrolling through a static list of 50 categories takes 30+ seconds. This latency leads to users abandoning expense tracking altogether.
-2. **Inconsistent Categorization Variables:** A human tracking their own expenses is often inconsistent. One month you might categorize Amazon as "Shopping", and the next month you might categorize it as "Groceries". An AI standardizes these inputs based on absolute context, maintaining perfectly structured data over time.
-3. **Data Privacy Intrusions:** Many modern budget trackers upload your highly sensitive financial data, location data, and transaction histories to third-party cloud servers. By designing this app to securely use a local SQLite instance, none of your financial history is stored outside your hard drive. The only piece of data transmitted to the cloud is the raw string of the purchased item for semantic NLP classification.
+1. **Too Much Friction in Data Entry:** It takes maybe two seconds to type "Bought 2 coffees for 10 bucks". On the other hand, opening a mobile app, waiting for the logo screen, clicking the floating plus button, manually typing the number, and then scrolling through a list of 50 different categories takes way longer. Because it takes so long, people just give up on tracking their money halfway through the month.
+2. **Inconsistent Categorization:** When a person tracks their own spending manually, they change their mind a lot. Fast forward a few months, and you might have put Amazon purchases under "Shopping" one week, and then under "Groceries" the next week. An AI model solves this by looking at the context and standardizing everything so your data stays perfectly clean.
+3. **Data Privacy Concerns:** A lot of the popular budgeting trackers actually take your highly sensitive financial history and upload it to random cloud servers. By designing my app to only use a local SQLite database right on your hard drive, none of your actual money history leaves your computer. The only thing the app ever sends to the internet is the specific item name when it asks the AI for the category.
 
 ---
 
 ## Key Features & Capabilities
 
-- **Secure Session Authentication:** The application enforces a strict user ecosystem. Users must register an account and log in. Passwords are actively encrypted using SHA-256 hashing via Python's native `hashlib` cryptography library.
-- **Relational Data Storage:** Built entirely on SQLite, ensuring that multiple users can utilize the same terminal application on the same machine without cross-contaminating their financial ledgers.
-- **Generative AI Integration:** Hooked directly into the Google Gemini 1.5 Flash API. It takes unstructured user prompts and forces the LLM to return a strictly structured classification noun.
-- **Offline NLP Failsafe System:** If you venture offline, hit an API rate limit, or haven't configured your `.env` keys, the application gracefully degrades. It shifts seamlessly to a custom, local Keyword-Matching algorithm that scans substrings to categorize text offline (e.g., detecting "uber" triggers the "Transport" classification).
-- **Formatted ASCII Tabular Views:** The data is pulled dynamically from the SQL database and algorithmically formatted into mathematically aligned, responsive ASCII tables for terminal readability.
-- **Protection Against Edge Cases:** The main loop utilizes strict Exception block catching (`try/except ValueError`, `EOFError`, and `KeyboardInterrupt`) so that invalid float amounts, random characters, or immediate terminal shutdowns do not corrupt the database schema.
+- **Secure Session Authentication:** I wanted to make sure the app was safe to use, so users have to register an account and log in. The passwords aren't just saved as plain text either; they are actively encrypted using SHA-256 hashing through Python's built-in `hashlib` library.
+- **Relational Data Storage:** Everything is built on SQLite. This means multiple people can actually use the same terminal application on the same computer without accidentally seeing each other's financial logs.
+- **Generative AI Integration:** The program hooks directly into the Google Gemini 1.5 Flash API. It takes whatever unstructured text the user types and forces the LLM to return exactly one structured category word.
+- **Offline NLP Failsafe System:** I knew that relying only on an internet connection was a bad idea. If you go offline, or if you simply haven't set up your API keys yet, the application won't crash. Instead, it seamlessly switches over to a custom Keyword-Matching algorithm I wrote that scans your string to guess the category offline (like realizing the word "uber" should trigger the "Transport" tag).
+- **Formatted ASCII Tabular Views:** When you view your expenses, the data is pulled directly from the SQL database and then formatted into cleanly aligned text tables so it looks nice in the terminal.
+- **Protection Against Edge Cases:** I put a lot of work into the main loop using strict `try/except` blocks. If someone accidentally types letters into the price amount, or tries to forcibly close the terminal with `CTRL+C`, the app catches the error safely instead of corrupting the database.
 
 ---
 
 ## System Architecture & Tech Stack Details
-I intentionally kept the stack highly modular and rigorously lightweight. There is absolutely no need to run Docker containers or heavy Node.js runtimes just to track an expense.
+I tried my best to keep the technology stack lightweight so that anyone can download this and run it immediately without having to install complicated Docker containers.
 
 ### The Stack:
-- **Programming Language:** Python 3.8+ (Strictly typed variables where applicable)
-- **Database Architecture:** SQLite3 (A serverless SQL engine built directly into Python binaries)
-- **AI/ML API Endpoint:** Google Generative AI (`google-generativeai` SDK)
-- **Environment Management:** `python-dotenv` for safely injecting secret variables into runtime memory without exposing them to code repositories.
+- **Programming Language:** Python 3.8+ 
+- **Database Architecture:** SQLite3 (This is a serverless SQL engine that comes built directly into Python, so no separate installs are needed)
+- **AI/ML API Endpoint:** Google Generative AI (using the `google-generativeai` package)
+- **Environment Management:** `python-dotenv` which I used so I could test my API keys without accidentally uploading my secret tokens to GitHub.
 
 ### Modular Codebase Organization:
-To ensure the code is maintainable and adheres to the Software Engineering principle of Separation of Concerns (SoC), the codebase is split into three primary modules:
-1. `main.py` - The controller. Handles the core `while True` loop, the visual CLI menus, terminal formatting, user input sanitization, and graceful exit handling.
-2. `database.py` - The repository layer. Handles all direct SQL queries. It automatically seeds the tables on the first run, executes `INSERT INTO` commands, and performs `SELECT` queries utilizing parameterized inputs (to completely prevent SQL Injection attacks).
-3. `ai_helper.py` - The intelligence layer. Acts as the bridge between the raw user text and the Gemini AI model endpoints. It houses both the LLM prompt-engineering logic and the offline local dictionary failsafe.
+To make sure my code was clean and followed good Software Engineering principles, I split the project into three separate Python files:
+1. `main.py` - This is the controller. It handles the main continuous loop, prints the visual menus to the screen, takes in what the user types, and manages the whole application lifecycle.
+2. `database.py` - This is the database layer. It handles all the direct SQL queries. It automatically builds the tables the very first time you run it, and it uses parameterized inputs to make sure nobody can do SQL Injection attacks.
+3. `ai_helper.py` - This is the brains of the operation. It acts as the bridge between the raw user text and the Gemini AI model. It also holds the backup offline dictionary string-matching logic.
 
 ---
 
 ## Complete Setup & Installation Guide
 
-If you are grading this BYOP project or simply want to clone it to use for your own personal finance tracking, follow these terminal instructions exactly.
+If you are grading this BYOP project or just want to try it out on your own machine, follow these exact instructions in your terminal.
 
-### Step 1: Clone the Repository to Local Storage
-First, pull the codebase to your local environment using Git:
+### Step 1: Clone the Repository
+First, pull the code down to your computer using Git:
 ```bash
 git clone https://github.com/Anushka-Chatterjee-128/AI-Expense-Tracker.git
 cd AI-Expense-Tracker
 ```
 
 ### Step 2: Initialize a Virtual Environment (Highly Recommended)
-Python dependencies should be sandboxed. Create a virtual environment (`venv`) to isolate the `google-generativeai` packages from your global OS packages.
+It's always a good idea to put Python dependencies in a sandbox. Create a virtual environment (`venv`) to keep the google AI packages separate from your main system.
 
 **For Windows Users:**
 ```cmd
@@ -95,24 +95,24 @@ source venv/bin/activate
 ```
 
 ### Step 3: Install Required Dependencies
-Once inside your activated sandbox, install the necessary project requirements. 
+Once you are inside your virtual sandbox, install the required packages. 
 ![Installing Requirements](images/installing-req.png)
 ```bash
 pip install -r requirements.txt
 ```
 
 ### Step 4: Configure the Generative AI Node (Optional API Setup)
-To witness the true LLM in action, you must provide it an API key. 
-1. Navigate to your browser and visit [Google AI Studio](https://aistudio.google.com/) to generate a free developer API key.
-2. Back in your terminal, locate the template file named `.env.example`. Rename this file to strictly `.env`.
-3. Open the `.env` file in VS Code, Vim, or Notepad, and replace the placeholder with your actual token.
+To actually see the LLM portion work, you will need to give it an API key. 
+1. Go to your internet browser and visit [Google AI Studio](https://aistudio.google.com/) to get a free developer key.
+2. Go back to your folder and find the file called `.env.example`. Rename it so it is just called `.env`.
+3. Open the `.env` file in Notepad or VS Code, and paste your actual token inside.
 ```text
 GEMINI_API_KEY=AIzaSyYourSecretKeyHere...
 ```
-*(Crucially: If you skip this step or are actively offline, the application will automatically detect the missing environment variable and transition to the offline Keyword Matcher. It will not crash.)*
+*(By the way, if you skip this step because you don't want to make an account, the application will automatically notice the missing key and fallback to the offline keyword matcher instead of crashing!)*
 
 ### Step 5: Boot the Application
-With the database and environment primed, execute the primary script:
+Now that everything is ready, just run the main script:
 ```bash
 python main.py
 ```
@@ -121,49 +121,49 @@ python main.py
 
 ## Step-by-Step Walkthrough
 
-Once you initialize the controller script, here is what the user journey looks like.
+Once you start the script, here is what using the app is actually like.
 
 ### 1. Registering and Validating User Sessions
-The opening prompt demands authentication. Because this is a fresh database instance, press `2` to enter the Registration flow. You will be asked to instantiate a username and a complex password. Behind the scenes, `database.py` generates a permanent SHA-256 cryptographic hash of your password and binds it to your username in the SQL table. Once successfully created, hit `1` to log in with the plaintext equivalents.
+The very first thing it does is ask you to log in. Since you probably just installed it and have a fresh database, type `2` to enter the Registration menu. It will ask you to make a username and a password. Behind the scenes, `database.py` takes your password, hashes it permanently with SHA-256, and saves it. Once that is done, you can hit `1` to log in normally.
 ![Register and Login](images/registering-and-login.png)
 
 ### 2. Dynamically Logging an Expense using the AI Engine
-Once your session is globally verified, the menu state changes. Press `1` to append a new transaction.
-The interface will prompt for two distinct strings:
+Once you are logged into your new account, the main menu changes. Press `1` to add an expense.
+It's going to quickly ask for two things:
 1. **Amount ($)** 
 2. **Expense Description** 
 
-In my testing scenario, I entered the phrase: `"uber to the airport"` for `$35.0`. 
-The application intercepts the string `"uber to the airport"` and routes it to `ai_helper.py`. The helper executes a prompt to the Gemini model demanding a 1-word classification. Within ~400ms, the AI replies with exactly: **Transport**. The controller intercepts this string and automatically commits the row (User ID, Amount, Raw Description, AI Category, Timestamp) to the SQLite registry.
+When I was testing it, I typed the phrase: `"uber to the airport"` for `$35.0`. 
+The application takes that string and sends it straight to `ai_helper.py`. The helper talks to the Gemini model and asks it to classify the sentence using only one word. Usually in less than half a second, the AI replies with exactly: **Transport**. The app then takes that and saves the whole row (User ID, Amount, Description, Category, Date) into the SQLite database file.
 ![Adding Expenses](images/adding-expenses.png)
 
 ### 3. Reviewing the Financial Ledger
-After utilizing the CLI to log subsequent expenses (e.g., buying a burger for lunch, satisfying a monthly electricity bill, and purchasing a Netflix subscription), I pressed `2` to view my aggregated expenses. 
+After I spent a few minutes logging other expenses (like buying a burger, paying my electricity bill, and grabbing a Netflix subscription), I pushed `2` to view my history. 
 
-`main.py` opens a connection to the SQL instance, requests all `expenses` inherently tied to my specific session `user_id`, orders the results algorithmically by `DESC` date parameters, and streams them back to the UI in a perfectly mapped ASCII grid. Visually notice how perfectly the AI identified context and accurately tagged each row!
+What happens here is `main.py` asks the SQL database for every single expense that matches my specific `user_id`, orders them so the newest ones are at the top, and prints them out as a really nice text table. If you look at the screenshot, you can see the AI did a perfect job figuring out what category everything belonged to!
 ![Viewing Expenses](images/viewing-expense-table.png)
 
 ### 4. Session Termination (Logout & Exit)
-Once the data entry is concluded, a user can securely press `3` to terminate their active session token, returning control to the primary unauthorized menu. From there, another user on the same physical machine can log in safely, or the original user can press `3` again to trigger a `sys.exit(0)` terminating the Python runtime entirely.
+When you are completely finished logging your expenses for the day, you can securely press `3` to log out, which drops you back to the main startup menu. From there, your roommate or friend could theoretically log into their own account, or you can just press `3` again to close the Python program entirely.
 ![Logout and Exit](images/logout-and-exit.png)
 
 ---
 
 ## Deep Dive: How the AI Engine Works Under the Hood
 
-The crux of the "AI" within this application lives exclusively inside `ai_helper.py`. Let's explore the dual-node setup.
+The really cool part of this application lives inside the `ai_helper.py` file. Here is an explanation of my dual-system setup.
 
 ### The Primary NLP Mechanism (Generative AI API)
-When a user feeds a description to the application, we don't just send the raw text to Google. We wrap the text in a highly specific, engineered "Few-Shot Prompt" constraint before transmission to the `gemini-1.5-flash` model:
+When a user types in a description of what they bought, I don't just send their raw text to the Google servers. I wrapped their text in a very specific, carefully engineered prompt before handing it to the `gemini-1.5-flash` model:
 
 > *"Categorize the following expense description into a single short category name (e.g., Food & Dining, Transport, Entertainment, Utilities, Shopping, Health, etc.). Just return the category name, nothing else. Description: [User Input]"*
 
-Large Language Models inherently want to be chatty. If you just send "uber", they will respond with "Uber is a multinational transportation network company...". By explicitly engineering the prompt to say "Just return the category name, nothing else", we successfully lobotomize the chatbot aspect of the LLM, forcing it to act exclusively as a rigidly typed classification function. This allows us to take its clean `response.text` string and inject it straight into our SQL database without fear of schema corruption.
+The issue with Large Language Models is that they inherently want to talk to you like a chatbot. If you just send the word "uber", they will respond with a giant paragraph about how "Uber is a multinational transportation network company...". By explicitly coding the prompt to say "Just return the category name, nothing else", I basically force the AI to act strictly as a classification function. This means I get a clean string back that I can safely insert into my SQL database.
 
 ### The Offline Failsafe Mechanism (Local Hardcoded NLP)
-A cardinal rule of backend engineering is redundancy. What if the user loses Wi-Fi connection? What if their API key expires? What if Google's endpoints suffer an outage?
+One thing we talk about in backend programming is redundancy. I had to ask myself: What if the user gets on an airplane without Wi-Fi? What if their Google API key stops working? 
 
-I developed a sophisticated fallback mechanism nested within a standard `try / except` architecture. If the API invocation throws any exception whatsoever, the error is quietly ignored (`pass`) and execution drops vertically into the local dictionary algorithm.
+To handle this, I wrote a fallback mechanism inside a `try / except` block. If the API call fails for any reason at all, the code ignores the error and immediately drops down to use my local dictionary algorithm instead.
 
 ```python
 FALLBACK_CATEGORIES = {
@@ -171,13 +171,13 @@ FALLBACK_CATEGORIES = {
     "Entertainment": ["movie", "cinema", "game", "netflix", "spotify"]
 }
 ```
-The algorithm forces the user input into a `.lower()` case format, iterates through multiple arrays mapping semantic keywords, and checks for overlaps using Python's `any()` function. If the algorithm spots the substring "netflix", it returns "Entertainment". If it finds absolutely no mapped arrays, it returns a safe "Miscellaneous" string. This ensures 100% uptime for the application, even in entirely air-gapped systems!
+This backup algorithm turns whatever the user typed into lowercase letters, loops through these different keyword lists, and checks to see if any words match using Python's `any()` function. If the algorithm sees the substring "netflix", it automatically assigns "Entertainment". If it doesn't recognize anything, it just safely assigns "Miscellaneous". This completely guarantees that the app will never crash during grading or while you're offline!
 
 ---
 
 ## Database Schema & ERD Mapping
 
-In the interest of full academic transparency, here is the exact relational schema currently executing strictly inside `expense_tracker.db`. We employ a 1-to-Many foreign key relationship mapping `users -> expenses`.
+In the interest of fully explaining my backend, here is the exact database schema running inside the `expense_tracker.db` file. I used a standard 1-to-Many foreign key relationship mapping the users to their expenses.
 
 **SQL Table: `users`**
 | Column Target | SQL Data Type | Absolute Constraints |
@@ -199,28 +199,28 @@ In the interest of full academic transparency, here is the exact relational sche
 ---
 
 ## Security Considerations & Best Practices
-Even though this is a CLI academic project, several real-world security paradigms were adhered to:
-1. **Password Protection:** As previously analyzed, `.encode()` and `hashlib.sha256()` implementations protect end-user passwords against local database breaches.
-2. **SQL Injection Armor:** By utilizing `?` placeholder parameters inside the `cursor.execute()` statements (e.g., `execute("SELECT id FROM users WHERE username = ?", (username,))`), malicious users cannot simply drop SQL payloads like `' OR '1'='1` into the username field to dump the database.
-3. **Ignored Runtime Variables:** The inclusion of a robust `.gitignore` file guarantees that the `.env` file containing the physical API key, the `__pycache__` artifacts, and the physical `expense_tracker.db` binary are systematically rejected by Git, meaning no sensitive traces are ever pushed to a public GitHub repository.
+Even though this is just a CLI academic project, I wanted to treat it like real software, so I added some actual security features:
+1. **Password Protection:** Like I mentioned earlier, using `.encode()` and `hashlib.sha256()` protects user passwords so they can't be easily stolen if someone copies the database file.
+2. **SQL Injection Armor:** I made sure to use `?` placeholder parameters inside all my `cursor.execute()` statements. This means a malicious user can't just type SQL payloads like `' OR '1'='1` into the username prompt to try and dump the entire database.
+3. **Ignored Runtime Variables:** I added a strict `.gitignore` file to the project. This guarantees that the `.env` file holding the secret API key and the physical `expense_tracker.db` file are blocked by Git. That way, nothing sensitive is ever accidently uploaded to my public GitHub repository.
 
 ---
 
 ## Error Handling & Edge Cases
-Great CLI's shouldn't crash when humans make mistakes. 
-- **Handling Invalid Floats**: If a user is asked for a price amount and typed `--`, `abc`, or an empty character, the terminal uses `try/except ValueError` loops to reject the input, display a human-readable warning ("Please enter a valid positive number"), and safely `continue` the `while` loop, as opposed to throwing a `Traceback` stack and violently crashing the app.
-- **Handling Control Sequences**: Pressing `CTRL+C` in a terminal throws a `KeyboardInterrupt`. The app catches this universally wrapping the `main()` function, allowing it to print `Exiting...` and gracefully terminate the process utilizing `sys.exit(0)`.
+I firmly believe that command line apps shouldn't crash just because a human made a minor typo. 
+- **Handling Invalid Floats**: If my app asks for a price amount and the user accidentally types `--` or text instead of a number, the code catches it with a `try/except ValueError`. Instead of violently crashing the entire app with a Traceback error, it just shows a polite warning saying "Please enter a valid positive number" and lets them try again.
+- **Handling Control Sequences**: Pressing `CTRL+C` while working in a terminal will normally throw a `KeyboardInterrupt` which looks really messy. My app catches this exception globally in the `main()` function, so it can quickly print `Exiting...` and safely shut down the process without an ugly error log.
 
 ---
 
 ## Future Scope & Production Enhancements
-While this MVP (Minimum Viable Product) completely fulfills the requirements of the BYOP project, scaling the application out for production would involve implementing the following systems:
-1. **Interactive Ascii Graphics:** While the terminal outputs strict text grids right now, integrating libraries like `plotext` would allow me to natively render colorful bar graphs and pie charts directly in the bash terminal, dynamically grouping user spending by AI categories against variable temporal contexts (e.g., sorting trailing 30-day graphs).
-2. **Export capabilities (CSV/JSON/PDF):** Coding a `-export` argument flag that triggers the application to query all `user_id` rows and `.dump()` them via the `csv` python module so users can visually map their algorithmically calculated spending habits in Microsoft Excel.
-3. **Hard Budget Constraints & Logic Limits:** Allowing users to hardcode rigid budget caps (e.g., "Max $200 allocated to Entertainment per 30 days"). The backend SQL engine would then be configured to automatically execute `SUM(amount)` aggregation algorithms every time a new expense is logged. If the new sum exceeds the defined constraint, the CLI would trigger an automated text-color altering warning protocol notifying the user of their breach!
+While this initial product totally fulfills all the requirements for the BYOP project, scaling the application out to be something I could release in the real world would probably require building the following things:
+1. **Interactive Ascii Graphics:** While the terminal outputs text grids perfectly right now, integrating a library like `plotext` would let me draw actual colorful bar charts in the terminal. That way the user could visually see how much they spent on Food versus Shopping over a 30-day period.
+2. **Export capabilities (CSV/JSON/PDF):** Adding an extra menu button that triggers a SQL query to gather all of the user's rows and export them as a clean CSV file so they could look at their data in Microsoft Excel.
+3. **Hard Budget Constraints:** I would like to let users set hardcoded budget caps (like telling the app "I only want to spend $200 on Entertainment every month"). The database engine would then add up those specific expenses and visually warn the user directly in the CLI if they are getting too close to their limit!
 
 ---
 
 ## Acknowledgments
-- Completely concepted, engineered, and executed for the *Fundamentals of AI and ML* course as the final, evaluated BYOP capstone project submission.
-- Engineered primarily leveraging Python 3.8 and the incredible efficiency of Google's Generative AI Flash methodologies.
+- Concepted, coded, and built for the *Fundamentals of AI and ML* course as my final evaluated BYOP capstone project.
+- Powered by Python 3.8 and the speedy Google Generative AI APIs.
